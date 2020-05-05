@@ -1,7 +1,7 @@
 const SHA256 = require('crypto-js/sha256');
 const Transaction = require('./transaction');
 
-class Block {
+module.exports = class Block {
     constructor(){
         this.index = 0;
         this.timestamp = Date.now();
@@ -34,22 +34,22 @@ class Block {
     }
 }
 
-let block1 = new Block;
+// let block1 = new Block;
 
-block1.addTx(new Transaction("product1"));
-block1.addTx(new Transaction("product2"));
-block1.addTx(new Transaction("product3"));
+// block1.addTx(new Transaction("product1"));
+// block1.addTx(new Transaction("product2"));
+// block1.addTx(new Transaction("product3"));
 
-let block2 = new Block;
+// let block2 = new Block;
 
-block2.addTx(new Transaction("product4"));
-block2.addTx(new Transaction("product5"));
-block2.addTx(new Transaction("product6"));
+// block2.addTx(new Transaction("product4"));
+// block2.addTx(new Transaction("product5"));
+// block2.addTx(new Transaction("product6"));
 
-module.exports = {
-    Block: Block,
-    block1: block1,
-    block2: block2
-}
+// module.exports = {
+//     Block: Block,
+//     block1: block1,
+//     block2: block2
+// }
 
 //console.log(JSON.stringify(block1, null, 4));

@@ -1,8 +1,8 @@
-const {Block} = require('./block');
-const {block1} = require('./block');
-const {block2} = require('./block');
+const Block = require('./block');
+// const {block1} = require('./block');
+// const {block2} = require('./block');
 
-class Blockchain{
+module.exports = class Blockchain{
     constructor() {
         this.chain = [this.createGenesis()];
         this.difficulty = 3;
@@ -57,18 +57,12 @@ class Blockchain{
     }
 }
 
-let sampleChain = new Blockchain;
+// let sampleChain = new Blockchain;
 
-console.log("Mining block 1...");
-sampleChain.addBlock(block1);
-console.log("Mining block 2...");
-sampleChain.addBlock(block2);
+// console.log("Mining block 1...");
+// sampleChain.addBlock(block1);
+// console.log("Mining block 2...");
+// sampleChain.addBlock(block2);
 
-console.log(JSON.stringify(sampleChain, null, 4));
-console.log("Is blockchain valid? " + sampleChain.checkValid());
-
-module.exports = {
-    Blockchain: Blockchain,
-    sampleChain: sampleChain
-}
-
+// console.log(JSON.stringify(sampleChain, null, 4));
+// console.log("Is blockchain valid? " + sampleChain.checkValid());

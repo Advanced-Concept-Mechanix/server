@@ -21,7 +21,14 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.12",
     "node-pre-gyp": "^0.14.0",
-    "realm": "^5.0.4"
+    "realm": "^5.0.4",
+    "@stablelib/base64": "^1.0.0",
+    "crypto-js": "^4.0.0",
+    "qrcode": "^1.4.4",
+    "qrcode-reader": "^1.0.4",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",

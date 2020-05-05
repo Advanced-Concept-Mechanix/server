@@ -1,15 +1,14 @@
 const SHA256 = require('crypto-js/sha256');
-const {PubKey} = require('./pubKey');
-const {myPubKey} = require('./pubKey');
 
 
 module.exports = class P2sh{
-    constructor(){
+    constructor(pubKey){
+        this.publicKey = pubKey;
         this.p2sh = this.getP2sh().toString();
     }
 
     getP2sh(){
-        return SHA256(new PubKey(myPubKey)); //for demo purposes
+        return SHA256(this.publicKey); 
     }
 }
 

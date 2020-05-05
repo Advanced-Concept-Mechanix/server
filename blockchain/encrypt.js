@@ -15,10 +15,6 @@ module.exports = class Encrypt{
         this.timestamp = Date.now();
     }
 
-    getUUID(sKey = this.secretKey){
-        return SHA256(sKey + this.timestamp + this.message).toString();
-    }
-
     signMessage(msg = this.message, sKey = this.secretKey){
 
         if (!(sKey instanceof Uint8Array)) {

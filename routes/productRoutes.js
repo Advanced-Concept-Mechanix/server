@@ -20,6 +20,7 @@ router.post('/newProduct', function(req, res){
         product.manufacturer = req.body.manufacturer;
         product.dateOfManufacture = req.body.dateOfManufacture;
         product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+        product.owners = req.body.owners;
     }
 
     product.save(function(err){
@@ -48,6 +49,7 @@ router.post('/singleProduct/:id', function(req, res){
     product.manufacturer = req.body.manufacturer;
     product.dateOfManufacture = req.body.dateOfManufacture;
     product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+    product.owners = req.body.owners;
 
     let query = {_id:req.params.id};
 
@@ -56,6 +58,28 @@ router.post('/singleProduct/:id', function(req, res){
             console.log(err);
         }else{
             res.json({product: product});
+        }
+    })
+})
+
+router.post('/update/:id', function(req, res){
+    let product = {};
+    product.name = req.body.name;
+    product.description = req.body.description;
+    product.manufacturer = req.body.manufacturer;
+    product.dateOfManufacture = req.body.dateOfManufacture;
+    product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+    product.owners = req.body.owners;
+
+    let newOwner = [req.body.currentOwner, req.body.location, req.body.timestamp];
+
+    let query = {_id:req.params.id};
+
+    Product.findByIdAndUpdate(query, {$push: {owners: newOwner}}, function(err, product){
+        if(err){
+            console.log(err);
+        }else{
+            res.json({msg: 'Owner added successfully', product:product});
         }
     })
 })

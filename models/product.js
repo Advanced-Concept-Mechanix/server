@@ -5,7 +5,8 @@ let productSchema = new mongoose.Schema({
     description: Array,
     manufacturer: String,
     dateOfManufacture: {type: Date, default: Date.now},
-    daysBeforeExpiry: Number 
+    daysBeforeExpiry: Number, 
+    owners: Array
   })
   
 module.exports = mongoose.model('Product', productSchema)

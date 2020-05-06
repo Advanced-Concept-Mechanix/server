@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require('../models/user');
 
-router.post('/new', function(req, res){
+router.post('/new', async function(req, res){
     req.assert('name', 'Username must be set').notEmpty();
     req.assert('email', 'Email must be set').notEmpty();
     req.assert('phone', 'Phone must be set').notEmpty();
@@ -15,40 +15,46 @@ router.post('/new', function(req, res){
     if(errors){
         console.log(errors);
     }else{
-        let user = new User();
-        user.name = req.body.name;
-        user.email = req.body.email;
-        user.phone = req.body.phone;
-        user.company = req.body.company;
-        user.type = req.body.type;
+        try{
+            let user = new User();
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.phone = req.body.phone;
+            user.company = req.body.company;
+            user.type = req.body.type;
+            user.publicKey = req.body.publicKey;
+            user.secretKey = req.body.secretKey;
 
-        user.publicKey = user.getPublicKey(function(err, pubKey){
-            if(err){
-                console.log(err)
-            }else{
-                return pubKey;
-            }
-        });
+            user.publicKey = user.getPublicKey(function(err, pubKey){
+                if(err){
+                    console.log(err)
+                }else{
+                    return pubKey;
+                }
+            });
 
-        user.secretKey = user.getSecretKey(function(err, sKey){
-            if(err){
-                console.log(err)
-            }else{
-                return sKey;
-            }
-        });
-    }
+            user.secretKey = user.getSecretKey(function(err, sKey){
+                if(err){
+                    console.log(err)
+                }else{
+                    return sKey;
+                }
+            });
 
-    user.save(function(err, user){
-        if(err){
+            user = await user.save(function(err, user){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.json({msg: "User successfully created", user:user});
+                }
+            })
+        } catch(err){
             console.log(err);
-        }else{
-            res.json({msg: "User successfully created", user:user});
         }
-    })
+    }  
 })
 
-router.get('/all', function(req, res){
+router.get('/', function(req, res){
     User.find({}, function(err, users){
         if(err){
             console.log(err);

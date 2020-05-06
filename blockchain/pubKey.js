@@ -4,15 +4,23 @@ const nacl = require('tweetnacl');
     return new Encrypt(data).getKeys().publicKey;
 }*/
 
-module.exports = class PubKey{
-    constructor(){
-        this.publicKey = this.getPublicKey();
-    }
-
-    getPublicKey(){
-        return nacl.sign.keyPair().publicKey;
-    }
+const pubKey = () => {
+    return nacl.sign.keyPair().publicKey;
 }
+
+module.exports = pubKey;
+
+// module.exports = class PubKey{
+//     constructor(){
+//         this.publicKey = this.getPublicKey();
+//     }
+
+//     getPublicKey(){
+//         return nacl.sign.keyPair().publicKey;
+//     }
+// }
+
+//eturn String.fromCharCode.apply(null, publicKey);
 
 //mypubkey is created for demo purposes
 

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Product = require('../models/product');
 
-router.post('/new', function(req, res){
+router.post('/new', async function(req, res){
     req.assert('name', 'Product name must be set').notEmpty();
     req.assert('description', 'Product description must be set').notEmpty();
     req.assert('manufacturer', 'Product manufacturer must be set').notEmpty();
@@ -14,25 +14,29 @@ router.post('/new', function(req, res){
     if(errors){
         console.log(errors)
     }else{
-        let product = new Product();
-        product.name = req.body.name;
-        product.description = req.body.description;
-        product.manufacturer = req.body.manufacturer;
-        product.dateOfManufacture = req.body.dateOfManufacture;
-        product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-        product.owners = req.body.owners;
-    }
+        try{
+            let product = new Product();
+            product.name = req.body.name;
+            product.description = req.body.description;
+            product.manufacturer = req.body.manufacturer;
+            product.dateOfManufacture = req.body.dateOfManufacture;
+            product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+            product.owners = req.body.owners;
 
-    product.save(function(err){
-        if(err){
+            product = await product.save(function(err, product){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.status(200).json({msg: 'Product created', product:product})
+                }
+            })
+        }catch(err){
             console.log(err);
-        }else{
-            res.status(200).json({msg: 'Product created', product})
         }
-    })
+    }  
 })
 
-router.get('/all', function(req, res){
+router.get('/', function(req, res){
     Product.find({}, function(err, products){
         if(err){
             console.log(err);

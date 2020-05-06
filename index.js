@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const expressValidator = require('express-validator');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const MONGODB = `mongodb://127.0.0.1:27017/shanga`;
 
@@ -18,6 +20,30 @@ db.once('open', function() {
   // we're connected!
   console.log("db connected...");
 });
+
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+//Routing
+const users = require('./routes/userRoutes');
+app.use('/users', users);
+
+const products = require('./routes/productRoutes');
+app.use('/products', products);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

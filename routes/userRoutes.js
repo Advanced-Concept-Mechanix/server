@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require('../models/user');
 
-router.post('/user/new', function(req, res){
+router.post('/new', function(req, res){
     req.assert('name', 'Username must be set').notEmpty();
     req.assert('email', 'Email must be set').notEmpty();
     req.assert('phone', 'Phone must be set').notEmpty();
@@ -48,7 +48,7 @@ router.post('/user/new', function(req, res){
     })
 })
 
-router.get('/user/all', function(req, res){
+router.get('/all', function(req, res){
     User.find({}, function(err, users){
         if(err){
             console.log(err);
@@ -58,7 +58,7 @@ router.get('/user/all', function(req, res){
     })
 })
 
-router.get('/user/find/:id', function(req, res){
+router.get('/find/:id', function(req, res){
     
     let query = {_id:req.params.id};
 
@@ -71,7 +71,7 @@ router.get('/user/find/:id', function(req, res){
     })
 })
 
-router.delete('/user/delete/:id', function(req, res){
+router.delete('/delete/:id', function(req, res){
 
     let query = {_id:req.params.id};
 
@@ -84,7 +84,7 @@ router.delete('/user/delete/:id', function(req, res){
     })
 })
 
-router.post('/user/update/:id', function(req, res){
+router.post('/update/:id', function(req, res){
     let user = {};
     user.name = req.body.name;
     user.email = req.body.email;
@@ -104,3 +104,5 @@ router.post('/user/update/:id', function(req, res){
         }
     })
 })
+
+module.exports = router;

@@ -1,7 +1,5 @@
 "use strict";
 
-const SHA256 = require('crypto-js/sha256');
-
 const nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
 
@@ -9,7 +7,6 @@ module.exports = class Encrypt{
     constructor(message, sKey){
         this.message = message;
         this.secretKey = sKey;
-        this.UUID = this.getUUID();
         this.signedMessage = this.signMessage();
         this.signature = this.getSignature(); 
         this.timestamp = Date.now();

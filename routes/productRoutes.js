@@ -60,14 +60,14 @@ router.post('/find/:id', function(req, res){
 })
 
 router.post('/update/:id', function(req, res){
-    let product = {};
-    product.name = req.body.name;
-    product.uuid = req.body.uuid;
-    product.description = req.body.description;
-    product.manufacturer = req.body.manufacturer;
-    product.dateOfManufacture = req.body.dateOfManufacture;
-    product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-    product.owners = req.body.owners;
+    // let product = {};
+    // product.name = req.body.name;
+    // product.uuid = req.body.uuid;
+    // product.description = req.body.description;
+    // product.manufacturer = req.body.manufacturer;
+    // product.dateOfManufacture = req.body.dateOfManufacture;
+    // product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+    // product.owners = req.body.owners;
 
     let newOwner = [req.body.currentOwner, req.body.location, req.body.timestamp];
 

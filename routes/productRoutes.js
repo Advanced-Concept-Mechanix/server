@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Product = require('../models/product');
 
-router.post('/newProduct', function(req, res){
+router.post('/product/new', function(req, res){
     req.assert('name', 'Product name must be set').notEmpty();
     req.assert('description', 'Product description must be set').notEmpty();
     req.assert('manufacturer', 'Product manufacturer must be set').notEmpty();
@@ -32,7 +32,7 @@ router.post('/newProduct', function(req, res){
     })
 })
 
-router.get('/allProducts', function(req, res){
+router.get('/product/all', function(req, res){
     Product.find({}, function(err, products){
         if(err){
             console.log(err);
@@ -42,14 +42,7 @@ router.get('/allProducts', function(req, res){
     })
 })
 
-router.post('/singleProduct/:id', function(req, res){
-    let product = {};
-    product.name = req.body.name;
-    product.description = req.body.description;
-    product.manufacturer = req.body.manufacturer;
-    product.dateOfManufacture = req.body.dateOfManufacture;
-    product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-    product.owners = req.body.owners;
+router.post('/product/find/:id', function(req, res){
 
     let query = {_id:req.params.id};
 
@@ -62,9 +55,10 @@ router.post('/singleProduct/:id', function(req, res){
     })
 })
 
-router.post('/update/:id', function(req, res){
+router.post('/product/update/:id', function(req, res){
     let product = {};
     product.name = req.body.name;
+    product.uuid = req.body.uuid;
     product.description = req.body.description;
     product.manufacturer = req.body.manufacturer;
     product.dateOfManufacture = req.body.dateOfManufacture;

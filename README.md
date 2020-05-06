@@ -2,7 +2,7 @@
 
 1. Clone the repository
 
-2. Navigate the root directory(Ignore the FrontEnd directory for the time being)
+2. Navigate the root directory(Ignore the client directory for the time being)
 
 3. To run one file
 ```

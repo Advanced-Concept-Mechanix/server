@@ -11,45 +11,55 @@ let transactionSchema = new mongoose.Schema({
 //   transactions: [transactionSchema]
 // })
 
-let chainSchema = new mongoose.Schema({
+let blockSchema = new mongoose.Schema({
   index: Number,
+  productId: String,
   timestamp: {type: Date, default: Date.now()},
   transactionSummary: [transactionSchema],
   previousHash: String,
   hash: String,
   nonce: Number,
-  difficulty: Number,
+  difficulty: {type: Number, default: 3},
   validity: Boolean
 })
 
-chainSchema.statics.latestDoc = function(){
+blockSchema.statics.latestDoc = function(){
   return this.find().limit(1).sort({$natural: -1});
 }
 
-chainSchema.statics.checkValidity = function(){
-  const latestDocument = latestDoc();
+blockSchema.methods.getIndex = function(latestDoc){
+  return latestDoc.index + 1;
+}
 
-  if (this.hash !== this.calculateHash()) {
+blockSchema.methods.getPreviousHash = function(latestDoc){
+  return latestDoc.hash;
+}
+
+blockSchema.statics.checkValidity = function(latestDoc){
+  let thisModel = this;
+
+  if (this.hash !== thisModel.calculateHash()) {
     console.log("Current hash is the problem!");
     return false;
   }
 
-  if (this.previousHash !== latestDocument.hash) {
+  if (this.previousHash !== latestDoc.hash) {
     console.log("Previous hash is the problem!");
     return false;
   }
   return true;
 }
 
-chainSchema.methods.calculateHash = function(){
+blockSchema.methods.calculateHash = function(){
   return SHA256(this.index + this.previousHash + this.timestamp + this.transactionSummary + this.nonce).toString();
 }
 
-chainSchema.methods.mine = function(){
+blockSchema.methods.mine = function(){
+  let thisModel = this;
   while (this.hash.substring(0, this.difficulty) !== Array(this.difficulty + 1).join("0")) {
     this.nonce++;
-    this.hash = this.calculateHash();
+    this.hash = thisModel.calculateHash();
   }
 }
   
-module.exports = mongoose.model('Blockchain',chainSchema);
+module.exports = mongoose.model('Block',blockSchema);

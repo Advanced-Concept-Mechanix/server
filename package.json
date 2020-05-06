@@ -1,6 +1,6 @@
 {
   "name": "shanga",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "proxy": "http://localhost:5000",
   "description": "anti-counterfeit app",
   "main": "index.js",

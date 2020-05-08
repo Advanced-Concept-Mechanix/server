@@ -10,4 +10,4 @@ let productSchema = new mongoose.Schema({
     owners: Array
   })
   
-module.exports = mongoose.model('Product', productSchema)
+module.exports = productSchema;

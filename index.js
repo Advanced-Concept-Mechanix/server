@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const MONGODB = `mongodb://127.0.0.1:27017/shanga`;
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });
+mongoose.connect(process.env.MONGODB_URI || MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
 
 const db = mongoose.connection;
 

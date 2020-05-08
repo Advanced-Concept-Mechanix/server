@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
-const Block = require('../models/block');
+const blockSchema = require('../models/block');
+const Block = mongoose.model('Block',blockSchema);
 
 router.post('/new', async function(req, res){
     req.assert('productId', 'Product ID must be set').notEmpty();
+    req.assert('index', 'index must be set').notEmpty();
+    req.assert('transactionSummary', 'transactionSummary must be set').notEmpty();
+    req.assert('previousHash', 'previousHash must be set').notEmpty();
+    req.assert('hash', 'hash must be set').notEmpty();
+    req.assert('nonce', 'Product ID must be set').notEmpty();
+    req.assert('difficulty', 'Product ID must be set').notEmpty();
+    req.assert('validity', 'Product ID must be set').notEmpty();
 
     let errors = req.validationErrors();
 
@@ -14,47 +23,15 @@ router.post('/new', async function(req, res){
         try{
             let block = new Block();
 
-            let latestDoc = Block.latestDoc(function(err, latestDoc){
-                if(err){
-                    console.log(err)
-                }else{
-                    return latestDoc;
-                }
-            });
-
             block.productId = req.body.productId;
-
-            block.index = block.getIndex(latestDoc, function(err, index){
-                if(err){
-                    console.log(err)
-                }else{
-                    return index;
-                }
-            });
-
-            block.previousHash = block.getPreviousHash(latestDoc, function(err, previousHash){
-                if(err){
-                    console.log(err)
-                }else{
-                    return previousHash;
-                }
-            });
-
-            block.hash = block.calculateHash(function(err, hash){
-                if(err){
-                    console.log(err)
-                }else{
-                    return hash;
-                }
-            });
-
-            block.validity = Block.checkValidity(latestDoc, function(err, validity){
-                if(err){
-                    console.log(err)
-                }else{
-                    return validity;
-                }
-            });
+            block.index = req.body.index;
+            block.timestamp = req.body.timestamp;
+            block.transactionSummary = req.body.transactionSummary;
+            block.previousHash = req.body.previousHash;
+            block.hash = req.body.hash;
+            block.nonce = req.body.nonce;
+            block.difficulty = req.body.difficulty;
+            block.validity = req.body.validity;
 
             block = await block.save(function(err, block){
                 if(err){
@@ -86,10 +63,23 @@ router.get('/find/:id', function(req, res){
     Block.findById(query, function(err, block){
         if(err){
             console.log(err);
+        }else if(!block){
+            res.json({msg: "No block by that id", find: false});
         }else{
             res.json({block:block});
         }
     })
+})
+
+router.get('/latest', function(req, res){
+
+    Block.find().limit(1).sort({$natural: -1}).exec(function(err, block){
+        if(err){
+            console.log(err);
+        }else{
+            res.json({block:block});
+        }
+    });
 })
 
 module.exports = router;

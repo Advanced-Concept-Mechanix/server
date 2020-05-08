@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
-const Product = require('../models/product');
+const productSchema = require('../models/product');
+const Product = mongoose.model('Product', productSchema);
 
 router.post('/new', async function(req, res){
     req.assert('name', 'Product name must be set').notEmpty();
@@ -53,6 +55,8 @@ router.post('/find/:id', function(req, res){
     Product.findById(query, function(err, product){
         if(err){
             console.log(err);
+        }else if(!product){
+            res.json({msg: "No product by that id", find: false});
         }else{
             res.json({product: product});
         }
@@ -76,6 +80,8 @@ router.post('/update/:id', function(req, res){
     Product.findByIdAndUpdate(query, {$push: {owners: newOwner}}, function(err, product){
         if(err){
             console.log(err);
+        }else if(!product){
+            res.json({msg: "No product by that id", update: false});
         }else{
             res.json({msg: 'Owner added successfully', product:product});
         }

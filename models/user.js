@@ -5,8 +5,9 @@ const pubKey = require('../blockchain/pubKey');
 const secretKey = require('../blockchain/secretKey');
 
 let userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
+    name: {type:String, unique: true},
+    password: String,
+    email: {type:String, unique: true},
     phone: Number,
     company: String,
     type: String,
@@ -22,4 +23,4 @@ userSchema.methods.getSecretKey = function(){
     return secretKey();
 }
   
-module.exports = mongoose.model('User', userSchema)
+module.exports = userSchema;

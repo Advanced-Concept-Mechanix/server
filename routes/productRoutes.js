@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const QRCode = require('qrcode')
 
 const productSchema = require('../models/product');
 const Product = mongoose.model('Product', productSchema);
@@ -98,6 +99,22 @@ router.delete('/delete/:id', function(req, res){
             res.json({msg: "No product by that id", delete: false});
         }else{
             res.json({msg: 'Product deleted successfully'});
+        }
+    });
+});
+
+router.post('/qr/:id', function(req, res){
+    let query = {_id:req.params.id};
+
+    Product.findById(query, async function(err, product){
+        if(err){
+            console.log(err);
+        }else{
+            let qrImage = await QRCode.toFile(
+                'qr.png',
+                [product]
+            );
+            res.json({qrImage:qrImage});
         }
     });
 });

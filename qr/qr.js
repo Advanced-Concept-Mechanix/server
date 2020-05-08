@@ -1,8 +1,8 @@
 "use strict";
 
-const QRCode = require('qrcode')
+const QRCode = require('qrcode');
 const QrCodeReader = require('qrcode-reader');
-const Jimp = require("jimp");
+// const Jimp = require("jimp");
 const nacl = require('tweetnacl');
 nacl.util = require('tweetnacl-util');
  

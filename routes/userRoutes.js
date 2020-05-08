@@ -89,7 +89,7 @@ router.delete('/delete/:id', function(req, res){
 
     let query = {_id:req.params.id};
 
-    User.findByIdAndDelete(query, function(err){
+    User.findByIdAndDelete(query, function(err, user){
         if(err){
             console.log(err);
         }else if(!user){

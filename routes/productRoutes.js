@@ -88,4 +88,18 @@ router.post('/update/:id', function(req, res){
     })
 })
 
+router.delete('/delete/:id', function(req, res){
+    let query = {_id:req.params.id};
+
+    Product.findByIdAndDelete(query, function(err, product){
+        if(err){
+            console.log(err);
+        }else if(!product){
+            res.json({msg: "No product by that id", delete: false});
+        }else{
+            res.json({msg: 'Product deleted successfully'});
+        }
+    });
+});
+
 module.exports = router;

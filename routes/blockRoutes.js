@@ -71,7 +71,7 @@ router.get('/find/:id', function(req, res){
     })
 })
 
-router.get('/latest', function(req, res){
+router.get('/previous', function(req, res){
 
     Block.find().limit(1).sort({$natural: -1}).exec(function(err, block){
         if(err){

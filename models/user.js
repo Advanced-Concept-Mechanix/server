@@ -10,7 +10,7 @@ let userSchema = new mongoose.Schema({
     email: {type:String, unique: true},
     phone: Number,
     company: String,
-    type: String,
+    type: {type:String, enum: ["manufacturer", "distributor", "retailer", "end-user"]},
     publicKey: {},
     secretKey: {}
   })

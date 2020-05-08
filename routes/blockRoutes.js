@@ -6,7 +6,7 @@ const blockSchema = require('../models/block');
 const Block = mongoose.model('Block',blockSchema);
 
 router.post('/new', async function(req, res){
-    req.assert('productId', 'Product ID must be set').notEmpty();
+    //req.assert('productId', 'Product ID must be set').notEmpty();
     req.assert('index', 'index must be set').notEmpty();
     req.assert('transactionSummary', 'transactionSummary must be set').notEmpty();
     req.assert('previousHash', 'previousHash must be set').notEmpty();
@@ -23,7 +23,7 @@ router.post('/new', async function(req, res){
         try{
             let block = new Block();
 
-            block.productId = req.body.productId;
+            //block.productId = req.body.productId;
             block.index = req.body.index;
             block.timestamp = req.body.timestamp;
             block.transactionSummary = req.body.transactionSummary;

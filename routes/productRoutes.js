@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const QRCode = require('qrcode')
+const QRCode = require('qrcode');
 
 const productSchema = require('../models/product');
 const Product = mongoose.model('Product', productSchema);
@@ -49,7 +49,7 @@ router.get('/', function(req, res){
     })
 })
 
-router.post('/find/:id', function(req, res){
+router.get('/find/:id', function(req, res){
 
     let query = {_id:req.params.id};
 

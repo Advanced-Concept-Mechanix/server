@@ -10,7 +10,7 @@ module.exports = class Blockchain{
     }
 
     createGenesis() {
-        return new Block(0, Date.now(), "Genesis block", "0")
+        return new Block(0, Date.now(), ["Genesis User","Genesis Product", "Genesis Location", new Date(), "0"], "0", "0")
     }
 
     latestBlock() {
@@ -32,7 +32,8 @@ module.exports = class Blockchain{
         console.log("Time to mine: " + timeToMine + " milliseconds");
         
         //newBlock.index = this.chain.length;
-        this.chain.push(newBlock);
+        //this.chain.push(newBlock);
+        this.chain = [...this.chain, newBlock];
         //const currentChain = [...this.chain, newBlock];
         //return currentChain;
     }

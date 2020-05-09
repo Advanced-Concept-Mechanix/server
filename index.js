@@ -51,6 +51,9 @@ app.use('/blocks', blocks);
 const transactions = require('./routes/transactionRoutes');
 app.use('/transactions', transactions);
 
+const blockchain = require('./routes/chainRoutes');
+app.use('/blockchain', blockchain);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`app running on port ${PORT}`)

@@ -2,10 +2,10 @@ const SHA256 = require('crypto-js/sha256');
 const Transaction = require('./transaction');
 
 module.exports = class Block {
-    constructor(){
+    constructor(txSummary){
         this.index = 0;
         this.timestamp = Date.now();
-        this.txSummary = [this.createBaseTx];
+        this.txSummary = txSummary;
         this.previousHash = "0";
         this.hash = this.calculateHash();
         this.nonce = 0;
@@ -22,15 +22,6 @@ module.exports = class Block {
           }
             
           console.log("BLOCK MINED: " + this.hash);
-    }
-
-    createBaseTx(){
-        return new Transaction("GenesisTx", 0, new Date());
-    }
-
-    addTx(newTx){
-        newTx.getproductUUID();
-        this.txSummary.push(newTx);
     }
 }
 

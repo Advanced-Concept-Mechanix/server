@@ -1,14 +1,16 @@
-const Encrypt = require('./encrypt');
+const SHA256 = require('crypto-js/sha256');
 
 module.exports = class Transaction{
-    constructor(data){
-        this.data = data;
-        this.UUID = this.getproductUUID();
+    constructor(user, product, location){
+        this.user = user;
+        this.product = product;
+        this.location = location;
         this.createdAt = new Date();
+        this.hash = this.calculateHash();
     }
 
-    getproductUUID(){
-        return new Encrypt(this.data).getUUID();
+    calculateHash(){
+        return SHA256(this.user + this.product + this.location + this.createdAt).toString();
     }
 }
 

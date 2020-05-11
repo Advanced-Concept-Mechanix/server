@@ -45,11 +45,11 @@ app.use('/users', users);
 const products = require('./routes/productRoutes');
 app.use('/products', products);
 
-const blocks = require('./routes/blockRoutes');
-app.use('/blocks', blocks);
+//const blocks = require('./routes/blockRoutes');
+//app.use('/blocks', blocks);
 
-const transactions = require('./routes/transactionRoutes');
-app.use('/transactions', transactions);
+//const transactions = require('./routes/transactionRoutes');
+//app.use('/transactions', transactions);
 
 const blockchain = require('./routes/chainRoutes');
 app.use('/blockchain', blockchain);

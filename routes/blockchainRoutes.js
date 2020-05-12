@@ -31,7 +31,7 @@ router.post('/new', async function(req, res){
 
         let block = new Block();
 
-        block.index = await latestBlock[0].index + 1;
+        block.index = await block.getIndex(latestBlock);
         block.txSummary = transactionSummary;
         block.previousHash = latestBlock[0].hash;
 
@@ -44,7 +44,7 @@ router.post('/new', async function(req, res){
             }
         });
 
-        block.nonce = block.mine(function(err, nonce){
+        block.nonce = block.mine(latestBlock, function(err, nonce){
             if(err){
                 console.log(err);
                 res.status(500);

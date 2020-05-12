@@ -15,9 +15,14 @@ blockSchema.methods.calculateHash = function(){
   return SHA256(this.index + this.timestamp + this.txSummary + this.previousHash + this.nonce).toString();
 }
 
-blockSchema.methods.mine = function(){
+blockSchema.methods.getIndex = function(latestBlock){
+  return latestBlock[0].index + 1;
+}
+
+blockSchema.methods.mine = async function(latestBlock){
 //let block = this;
 let count = 0;
+this.index = await this.getIndex(latestBlock);
 
   while (this.calculateHash().substring(0, this.difficulty) !== Array(this.difficulty + 1).join("0")){
     this.nonce++;

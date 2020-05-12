@@ -1,6 +1,10 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
+const expressWs = require('express-ws')(app);
+
+const aWss = expressWs.getWss('/');
 
 const transactionSchema = require('../models/transactions');
 const blockSchema = require('../models/blocks');
@@ -132,6 +136,19 @@ router.get('/:product', function(req, res){
             res.status(200).json({blocks:blocks});
         }
     })
+});
+
+//broadcast block to all nodes -- not tested yet
+router.ws('/broadcast', function(ws,req){
+
+  console.log('Socket Connected');
+
+  ws.onmessage = function(msg) {
+    console.log(msg.data);
+    aWss.clients.forEach(function (client) {
+      client.send(msg.data);
+    });
+  };
 });
 
 // router.post('/genesis', async function(req,res){

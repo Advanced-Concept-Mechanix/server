@@ -24,7 +24,6 @@ router.post('/new', async function(req, res){
             product.manufacturer = req.body.manufacturer;
             product.dateOfManufacture = req.body.dateOfManufacture;
             product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-            product.owners = req.body.owners;
 
             product = await product.save(function(err, product){
                 if(err){
@@ -65,26 +64,29 @@ router.get('/find/:id', function(req, res){
 })
 
 router.post('/update/:id', function(req, res){
-    // let product = {};
-    // product.name = req.body.name;
-    // product.uuid = req.body.uuid;
-    // product.description = req.body.description;
-    // product.manufacturer = req.body.manufacturer;
-    // product.dateOfManufacture = req.body.dateOfManufacture;
-    // product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-    // product.owners = req.body.owners;
-
-    let newOwner = [req.body.currentOwner, req.body.location, req.body.timestamp];
 
     let query = {_id:req.params.id};
 
-    Product.findByIdAndUpdate(query, {$push: {owners: newOwner}}, function(err, product){
+    Product.findOne(query, async function(err, product){
         if(err){
             console.log(err);
+            res.status(500);
         }else if(!product){
             res.json({msg: "No product by that id", update: false});
         }else{
-            res.json({msg: 'Owner added successfully', product:product});
+            product.name = req.body.name;
+            product.description = req.body.description;
+            product.manufacturer = req.body.manufacturer;
+            product.dateOfManufacture = req.body.dateOfManufacture;
+            product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+
+            await product.save(function(err, product){
+                if(err){
+                    res.status(500);
+                }else{
+                    res.json({msg: 'product updated successfully', product:product});
+                }
+            });
         }
     })
 })

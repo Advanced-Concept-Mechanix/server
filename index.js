@@ -2,13 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
 const app = express();
 
+const MONGODB = `mongodb://127.0.0.1:27017/shanga`;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-const MONGODB = `mongodb://127.0.0.1:27017/shanga`;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || MONGODB, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
@@ -39,20 +41,20 @@ app.use(expressValidator({
 }));
 
 //Routing
+// const users = require('./routes/userRoutes');
+// app.use('/users', users);
+
 const users = require('./routes/userRoutes');
 app.use('/users', users);
 
 const products = require('./routes/productRoutes');
 app.use('/products', products);
 
-const blocks = require('./routes/blockRoutes');
-app.use('/blocks', blocks);
-
 const transactions = require('./routes/transactionRoutes');
 app.use('/transactions', transactions);
 
-const blockchain = require('./routes/chainRoutes');
-app.use('/blockchain', blockchain);
+const blocks = require('./routes/blockchainRoutes');
+app.use('/blocks', blocks);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

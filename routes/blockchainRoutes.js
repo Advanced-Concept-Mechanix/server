@@ -123,7 +123,7 @@ router.get('/count', function(req, res){
 
 router.get('/:product', function(req, res){
 
-    let query = {product:req.params.product};
+    let query = {'txSummary.product':req.params.product};
 
     Block.find(query, function(err, blocks){
         if(err){

@@ -44,21 +44,27 @@ router.post('/new', async function(req, res){
             }
         });
 
-        // block.nonce = block.mine(function(err, nonce){
-        //     if(err){
-        //         console.log(err);
-        //         res.status(500);
-        //     }else{
-        //         return nonce
-        //     }
-        // });
+        block.nonce = block.mine(function(err, nonce){
+            if(err){
+                console.log(err);
+                res.status(500);
+            }else{
+                return nonce
+            }
+        });
 
         await block.save(function(err, block){
             if(err){
                 console.log(err);
                 res.status(500);
             }else{
-                Transaction.remove();
+                Transaction.find().deleteMany(function(err){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log("transactions deleted");
+                    }
+                });
                 res.status(200).json({msg:"block created successfully", block:block});
             }
         });

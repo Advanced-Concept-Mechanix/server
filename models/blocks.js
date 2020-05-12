@@ -7,7 +7,7 @@ let blockSchema = new mongoose.Schema({
     txSummary: {},
     previousHash: String,
     hash: String,
-    nonce: {},
+    nonce: {type:Number, default: 0},
     difficulty: {type: Number, default: 3}
 })
 
@@ -16,12 +16,15 @@ blockSchema.methods.calculateHash = function(){
 }
 
 blockSchema.methods.mine = function(){
-let block = this;
+//let block = this;
+let count = 0;
 
-  while (block.calculateHash().substring(0, block.difficulty) !== Array(block.difficulty + 1).join("0")){
-    block.nonce + 1;
-    block.hash = block.calculateHash();
+  while (this.calculateHash().substring(0, this.difficulty) !== Array(this.difficulty + 1).join("0")){
+    this.nonce++;
+    count++;
+    this.hash = this.calculateHash();
   }
+  return count;
 }
 
 blockSchema.statics.checkValid = async function(){
@@ -29,6 +32,7 @@ blockSchema.statics.checkValid = async function(){
     if(err){
       console.log(err);
     }else{
+      console.log(chain);
       return chain;
     }
   })

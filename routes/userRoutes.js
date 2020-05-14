@@ -28,8 +28,6 @@ router.post('/new', async function(req, res){
             user.phone = req.body.phone;
             user.company = req.body.company;
             user.type = req.body.type;
-            user.publicKey = req.body.publicKey;
-            user.secretKey = req.body.secretKey;
 
             user.publicKey = user.getPublicKey(function(err, pubKey){
                 if(err){

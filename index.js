@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 require('dotenv').config();
 
 const app = express();
@@ -42,8 +40,6 @@ app.use(expressValidator({
 }));
 
 //Routing
-// const users = require('./routes/userRoutes');
-// app.use('/users', users);
 
 const users = require('./routes/userRoutes');
 app.use('/users', users);

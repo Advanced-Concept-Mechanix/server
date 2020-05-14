@@ -151,32 +151,32 @@ router.ws('/broadcast', function(ws,req){
   };
 });
 
-// router.post('/genesis', async function(req,res){
+router.post('/genesis', async function(req,res){
 
-//     let block = new Block();
-//     block.index = 0;
-//     block.txSummary = {};
-//     block.previousHash = "0";
+    let block = new Block();
+    block.index = 0;
+    block.txSummary = {};
+    block.previousHash = "0";
 
-//     block.hash = block.calculateHash(function(err, hash){
-//         if(err){
-//             console.log(err);
-//             res.status(500);
-//         }else{
-//             return hash;
-//         }
-//     });
+    block.hash = block.calculateHash(function(err, hash){
+        if(err){
+            console.log(err);
+            res.status(500);
+        }else{
+            return hash;
+        }
+    });
 
-//     block.nonce = 0;
+    block.nonce = 0;
 
-//     await block.save(function(err, block){
-//         if(err){
-//             console.log(err);
-//             res.status(500);
-//         }else{
-//             res.status(200).json({msg:"genesis block created", block:block});
-//         }
-//     });
-// });
+    await block.save(function(err, block){
+        if(err){
+            console.log(err);
+            res.status(500);
+        }else{
+            res.status(200).json({msg:"genesis block created", block:block});
+        }
+    });
+});
 
 module.exports = router;

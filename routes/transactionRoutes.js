@@ -34,7 +34,7 @@ router.post('/new', async function(req, res){
                 if(err){
                     console.log(err);
                 }else{
-                    res.json({msg: "Transaction successfully created", transaction:transaction});
+                    res.json({msg: "Transaction successfully created"});
                 }
             })
         } catch(err){

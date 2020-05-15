@@ -49,7 +49,7 @@ router.post('/new', async function(req, res){
                 if(err){
                     console.log(err);
                 }else{
-                    res.json({msg: "User successfully created", user:user});
+                    res.json({msg: "User successfully created"});
                 }
             })
         } catch(err){
@@ -116,7 +116,7 @@ router.post('/update/:id', function(req, res){
         }else if(!user){
             res.json({msg: "No user by that id", update: false});
         }else{
-            res.json({msg:"User updated successfully", user:user});
+            res.json({msg:"User updated successfully"});
         }
     })
 })

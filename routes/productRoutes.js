@@ -29,7 +29,7 @@ router.post('/new', async function(req, res){
                 if(err){
                     console.log(err);
                 }else{
-                    res.status(200).json({msg: 'Product created', product:product})
+                    res.status(200).json({msg: 'Product created'})
                 }
             })
         }catch(err){
@@ -84,7 +84,7 @@ router.post('/update/:id', function(req, res){
                 if(err){
                     res.status(500);
                 }else{
-                    res.json({msg: 'product updated successfully', product:product});
+                    res.json({msg: 'product updated successfully'});
                 }
             });
         }

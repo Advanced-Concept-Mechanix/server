@@ -69,7 +69,7 @@ router.post('/new', async function(req, res){
                         console.log("transactions deleted");
                     }
                 });
-                res.status(200).json({msg:"block created successfully", block:block});
+                res.status(200).json({msg:"block created successfully"});
             }
         });
 
@@ -174,7 +174,7 @@ router.post('/genesis', async function(req,res){
             console.log(err);
             res.status(500);
         }else{
-            res.status(200).json({msg:"genesis block created", block:block});
+            res.status(200).json({msg:"genesis block created"});
         }
     });
 });

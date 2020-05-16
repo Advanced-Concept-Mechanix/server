@@ -110,7 +110,7 @@ router.post('/update/:id', function(req, res){
 
     let query = {_id:req.params.id};
 
-    User.findByIdAndUpdate(query, user, function(err, user){
+    User.findByIdAndUpdate(query, user, { runValidators: true, context: 'query' }, function(err, user){
         if(err){
             console.log(err);
         }else if(!user){

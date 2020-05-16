@@ -49,6 +49,7 @@ router.post('/new', async function(req, res){
             user = await user.save(function(err, user){
                 if(err){
                     console.log(err);
+                    res.json({Error:err});
                 }else{
                     res.json({msg: "User successfully created"});
                 }

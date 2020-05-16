@@ -55,6 +55,7 @@ router.post('/new', async function(req, res){
             })
         } catch(err){
             console.log(err);
+            res.json({Error:err});
         }
     }  
 })

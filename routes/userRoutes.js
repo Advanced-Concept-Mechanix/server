@@ -50,8 +50,7 @@ router.post('/new', async function(req, res){
                 if(err){
                     console.log(err);
                     // let message = err["Error"]["errors"]["name"]["message"] || err["Error"]["errors"]["email"]["message"];
-                    let message = err.Error.message;
-                    res.json({Error:message});
+                    res.json({Error:err});
                 }else{
                     res.json({msg: "User successfully created"});
                 }

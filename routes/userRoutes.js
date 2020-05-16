@@ -19,6 +19,7 @@ router.post('/new', async function(req, res){
 
     if(errors){
         console.log(errors);
+        res.json({Error:errors});
     }else{
         try{
             let user = new User();

@@ -22,24 +22,24 @@ db.once('open', function() {
   console.log("db connected...");
 });
 
-// app.use(expressValidator({
-//   errorFormatter: function(param, msg, value) {
-//       var namespace = param.split('.')
-//       , root = namespace.shift()
-//       , formParam = root;
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root = namespace.shift()
+      , formParam = root;
 
-//     while(namespace.length) {
-//       formParam += '[' + namespace.shift() + ']';
-//     }
-//     return {
-//       param : formParam,
-//       msg   : msg,
-//       value : value
-//     };
-//   }
-// }));
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
-app.use(expressValidator);
+// app.use(expressValidator);
 
 //Routing
 

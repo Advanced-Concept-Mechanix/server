@@ -70,6 +70,6 @@ module.exports = (err, req, res, next) => {
             error = handleValidationErrorDB(error);
         }
 
-        sendErrorProd(err, res);
+        sendErrorProd(error, res);
     }
 };

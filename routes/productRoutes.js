@@ -2,77 +2,73 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const QRCode = require('qrcode');
+const AppError = require('../errorHandling/AppError');
 
 const productSchema = require('../models/product');
 const Product = mongoose.model('Product', productSchema);
 
-router.post('/new', async function(req, res){
-    req.assert('name', 'Product name must be set').notEmpty();
-    req.assert('description', 'Product description must be set').notEmpty();
-    req.assert('manufacturer', 'Product manufacturer must be set').notEmpty();
-    req.assert('daysBeforeExpiry', 'Product days before expiry must be set').notEmpty();
+router.post('/new', async function(req, res, next){
 
-    let errors = req.validationErrors();
+    try{
+        let product = new Product();
+        product.name = req.body.name;
+        product.description = req.body.description;
+        product.manufacturer = req.body.manufacturer;
+        product.dateOfManufacture = req.body.dateOfManufacture;
+        product.daysBeforeExpiry = req.body.daysBeforeExpiry;
 
-    if(errors){
-        console.log(errors)
-    }else{
-        try{
-            let product = new Product();
-            product.name = req.body.name;
-            product.description = req.body.description;
-            product.manufacturer = req.body.manufacturer;
-            product.dateOfManufacture = req.body.dateOfManufacture;
-            product.daysBeforeExpiry = req.body.daysBeforeExpiry;
-
-            product = await product.save(function(err, product){
-                if(err){
-                    console.log(err);
-                }else{
-                    res.status(200).json({msg: 'Product created'})
-                }
-            })
-        }catch(err){
-            console.log(err);
-        }
+        product = await product.save(function(err, product){
+            if(err){
+                console.log(err);
+                next(err);
+            }else{
+                res.status(200).json({msg: 'Product created', success: true})
+            }
+        })
+    }catch(err){
+        console.log(err);
+        next(err);
     }  
 })
 
-router.get('/', function(req, res){
+router.get('/', function(req, res, next){
     Product.find({}, function(err, products){
         if(err){
             console.log(err);
+            next(err);
         }else{
             res.json({products:products});
         }
     })
 })
 
-router.get('/find/:id', function(req, res){
+router.get('/find/:id', function(req, res, next){
 
     let query = {_id:req.params.id};
 
     Product.findById(query, function(err, product){
         if(err){
             console.log(err);
+            next(err);
         }else if(!product){
-            res.json({msg: "No product by that id", find: false});
+            return next(new AppError('No product with that id', 404));
         }else{
             res.json({product: product});
         }
     })
 })
 
-router.post('/update/:id', function(req, res){
+router.post('/update/:id', function(req, res, next){
 
     let query = {_id:req.params.id};
 
     Product.findOne(query, async function(err, product){
         if(err){
             console.log(err);
-            res.status(500);
+            next(err);
         }else if(!product){
-            res.json({msg: "No product by that id", update: false});
+            return next(new AppError('No product with that id', 404));
+            //res.json({msg: "No product by that id", update: false});
         }else{
             product.name = req.body.name;
             product.description = req.body.description;
@@ -82,35 +78,38 @@ router.post('/update/:id', function(req, res){
 
             await product.save(function(err, product){
                 if(err){
-                    res.status(500);
+                    next(err);
                 }else{
-                    res.json({msg: 'product updated successfully'});
+                    res.json({msg: 'product updated successfully', success: true});
                 }
             });
         }
     })
 })
 
-router.delete('/delete/:id', function(req, res){
+router.delete('/delete/:id', function(req, res, next){
     let query = {_id:req.params.id};
 
     Product.findByIdAndDelete(query, function(err, product){
         if(err){
             console.log(err);
+            next(err);
         }else if(!product){
-            res.json({msg: "No product by that id", delete: false});
+            return next(new AppError('No product with that id', 404));
+            //res.json({msg: "No product by that id", delete: false});
         }else{
-            res.json({msg: 'Product deleted successfully'});
+            res.json({msg: 'Product deleted successfully', success: true});
         }
     });
 });
 
-router.post('/qr/:id', function(req, res){
+router.post('/qr/:id', function(req, res, next){
     let query = {_id:req.params.id};
 
     Product.findById(query, async function(err, product){
         if(err){
             console.log(err);
+            next(err);
         }else{
             let qrImage = await QRCode.toFile(
                 'qr.png',

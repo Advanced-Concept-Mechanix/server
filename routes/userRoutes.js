@@ -22,7 +22,7 @@ router.post('/new', async function(req, res, next){
         user.publicKey = user.getPublicKey(function(err, pubKey){
             if(err){
                 console.log(err);
-                return next(new AppError('Cannot generate public key', 500));
+                next(err);
             }else{
                 return pubKey;
             }
@@ -31,7 +31,7 @@ router.post('/new', async function(req, res, next){
         user.secretKey = user.getSecretKey(function(err, sKey){
             if(err){
                 console.log(err);
-                return next(new AppError('Cannot generate secret key', 500));
+                next(err);
             }else{
                 return sKey;
             }

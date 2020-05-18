@@ -46,7 +46,7 @@ router.post('/new', async function(req, res, next){
                 //return next(new AppError(err, 500));
                 next(err);
             }else{
-                res.json({msg: "User successfully created"});
+                res.status(200).json({msg: "User successfully created"});
             }
         })
     } catch (err) {

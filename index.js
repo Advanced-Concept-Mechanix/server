@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const expressValidator = require('express-validator');
+//const expressValidator = require('express-validator');
 require('dotenv').config();
+const AppError = require('./errorHandling/AppError');
+const errorMiddleware = require('./errorHandling/errorMiddleware');
 
 const app = express();
 
@@ -22,24 +24,34 @@ db.once('open', function() {
   console.log("db connected...");
 });
 
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root = namespace.shift()
-      , formParam = root;
+// app.use(expressValidator({
+//   errorFormatter: function(param, msg, value) {
+//       var namespace = param.split('.')
+//       , root = namespace.shift()
+//       , formParam = root;
 
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
+//     while(namespace.length) {
+//       formParam += '[' + namespace.shift() + ']';
+//     }
+//     return {
+//       param : formParam,
+//       msg   : msg,
+//       value : value
+//     };
+//   }
+// }));
 
 // app.use(expressValidator);
+
+//Error handling
+//error middleware
+
+app.use(errorMiddleware);
+
+//error handling for routes
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
 //Routing
 
@@ -55,7 +67,24 @@ app.use('/transactions', transactions);
 const blocks = require('./routes/blockchainRoutes');
 app.use('/blocks', blocks);
 
+//Run the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`app running on port ${PORT}`)
+});
+
+//handling uncaught exceptions and unhandled rejections
+
+process.on('unhandledRejection', err => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  process.exit(1);
+});
+
+process.on('uncaughtException', err => {
+  console.log(err.name, err.message);
+  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+
+  process.exit(1);
+
 });

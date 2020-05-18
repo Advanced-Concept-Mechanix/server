@@ -43,11 +43,6 @@ db.once('open', function() {
 
 // app.use(expressValidator);
 
-//Error handling
-//error middleware
-
-app.use(errorMiddleware);
-
 //Routing
 
 const users = require('./routes/userRoutes');
@@ -66,6 +61,11 @@ app.use('/blocks', blocks);
 // app.all('*', (req, res, next) => {
 //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 // });
+
+//Error handling
+//error middleware
+
+app.use(errorMiddleware);
 
 //Run the server
 const PORT = process.env.PORT || 5000;

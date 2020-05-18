@@ -43,7 +43,8 @@ router.post('/new', async function(req, res, next){
                 //let message = err.Error.message;
                 // let message = err["Error"]["errors"]["name"]["message"] || err["Error"]["errors"]["email"]["message"];
                 //res.status(500).json({Error:err});
-                return next(new AppError(err, 500));
+                //return next(new AppError(err, 500));
+                next(err);
             }else{
                 res.json({msg: "User successfully created"});
             }
@@ -53,7 +54,8 @@ router.post('/new', async function(req, res, next){
         //     status: 'fail',
         //     message: err
         // });
-        return next(new AppError(err, 500));
+        //return next(new AppError(err, 500));
+        next(err);
     }
 })
 
@@ -61,7 +63,8 @@ router.get('/', function(req, res, next){
     User.find({}, function(err, users){
         if(err){
             console.log(err);
-            return next(new AppError(err, 500));
+            //return next(new AppError(err, 500));
+            next(err);
         }else{
             res.json({users:users});
         }
@@ -75,7 +78,8 @@ router.get('/find/:id', function(req, res, next){
     User.findById(query, function(err, user){
         if(err){
             console.log(err);
-            return next(new AppError(err, 500));
+            next(err);
+            //return next(new AppError(err, 500));
         }else if(!user){
             return next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
@@ -92,7 +96,8 @@ router.delete('/delete/:id', function(req, res, next){
     User.findByIdAndDelete(query, function(err, user){
         if(err){
             console.log(err);
-            return next(new AppError(err, 500));
+            next(err);
+            //return next(new AppError(err, 500));
         }else if(!user){
             return next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
@@ -117,7 +122,8 @@ router.post('/update/:id', function(req, res, next){
     User.findByIdAndUpdate(query, user, { runValidators: true, context: 'query' }, function(err, user){
         if(err){
             console.log(err);
-            return next(new AppError(err, 500));
+            next(err);
+            //return next(new AppError(err, 500));
         }else if(!user){
             return next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
@@ -136,7 +142,8 @@ router.get('/login', function(req, res, next){
     User.findOne(query, function(err, user){
         if(err){
             console.log(err);
-            return next(new AppError(err, 500));
+            next(err);
+            //return next(new AppError(err, 500));
         }else if(!user){
             return next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that name", success: false, name: false});

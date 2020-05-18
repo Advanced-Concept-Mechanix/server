@@ -48,11 +48,6 @@ db.once('open', function() {
 
 app.use(errorMiddleware);
 
-//error handling for routes
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
-
 //Routing
 
 const users = require('./routes/userRoutes');
@@ -66,6 +61,11 @@ app.use('/transactions', transactions);
 
 const blocks = require('./routes/blockchainRoutes');
 app.use('/blocks', blocks);
+
+//error handling for routes
+// app.all('*', (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+// });
 
 //Run the server
 const PORT = process.env.PORT || 5000;

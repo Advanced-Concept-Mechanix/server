@@ -2,26 +2,26 @@
 
 1. Clone the repository
 
-2. Navigate the root directory(Ignore the client directory for the time being)
-
-3. To run one file
+2. Install the dependencies
 ```
 npm install
 
-node <name of the file>
-
-```
-E.g.
-
-```
-node blockchain.js
-
 ```
 
-4. To run the server
+4. Run the server with nodemon(development)
 
 ```
 npm run server
 
 ```
 
+5. Run the server with pm2(production)
+
+```
+pm2 start
+
+```
+
+**Usage from VPS**
+
+You can access the application through the server ip address

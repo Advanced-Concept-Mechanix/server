@@ -133,11 +133,11 @@ router.post('/update/:id', function(req, res, next){
     })
 })
 
-router.get('/login', function(req, res, next){
-    let username = req.body.name;
+router.post('/login', function(req, res, next){
+    let email = req.body.email;
     let password = SHA256(req.body.password);
 
-    let query = {name:username};
+    let query = {email:email};
 
     User.findOne(query, function(err, user){
         if(err){

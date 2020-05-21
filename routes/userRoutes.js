@@ -148,7 +148,7 @@ router.post('/login', function(req, res, next){
             return next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that name", success: false, name: false});
         }else if(user.password == password){
-            res.json({msg: "You have logged in successfully", success: true});
+            res.json({msg: "You have logged in successfully", user: user});
         }else{
             return next(new AppError('Your password is false', 400));
             //res.json({msg: "Your password is false", success: false, password: false});

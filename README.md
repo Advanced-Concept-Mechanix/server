@@ -18,7 +18,7 @@ npm run server
 5. Run the server with pm2(production)
 
 ```
-pm2 start
+npm start
 
 ```
 

@@ -173,7 +173,7 @@ router.post('/password/:id', function(req, res, next){
         if(err){
             next(err);
         }else{
-            res.status(200).json({user:user, msg:'User updated successfully'});
+            res.status(200).json({user:user, msg:'Password updated successfully'});
         }
     });
 })

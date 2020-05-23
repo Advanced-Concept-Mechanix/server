@@ -81,7 +81,7 @@ router.get('/find/:id', function(req, res, next){
             next(err);
             //return next(new AppError(err, 500));
         }else if(!user){
-            return next(new AppError('No user found with that ID', 404));
+            next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
         }else{
             res.json({user:user, success: true});
@@ -99,7 +99,7 @@ router.delete('/delete/:id', function(req, res, next){
             next(err);
             //return next(new AppError(err, 500));
         }else if(!user){
-            return next(new AppError('No user found with that ID', 404));
+            next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
         }else{
             res.json({msg: 'User deleted successfully', success: true});
@@ -108,27 +108,35 @@ router.delete('/delete/:id', function(req, res, next){
 })
 
 router.post('/update/:id', function(req, res, next){
-    let user = {};
-    user.name = req.body.name;
-    user.email = req.body.email;
-    user.phone = req.body.phone;
-    user.company = req.body.company;
-    user.type = req.body.type;
-    user.publicKey = req.body.publicKey;
-    user.secretKey = req.body.secretKey;
+    let name = req.body.name;
+    let email = req.body.email;
+    let phone = req.body.phone;
+    let company = req.body.company;
+    let type = req.body.type;
 
     let query = {_id:req.params.id};
 
-    User.findByIdAndUpdate(query, user, { runValidators: true, context: 'query' }, function(err, user){
+    User.findOne(query, async function(err, user){
         if(err){
             console.log(err);
             next(err);
             //return next(new AppError(err, 500));
         }else if(!user){
-            return next(new AppError('No user found with that ID', 404));
+            next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that id", success: false});
         }else{
-            res.json({msg:"User updated successfully", success: true});
+            user.name = name;
+            user.email = email;
+            user.phone = phone;
+            user.company = company;
+            user.type = type;
+            await user.save(function(err, user){
+                if(err){
+                    next(err);
+                }else{
+                    res.status(200).json({msg:"User updated successfully", success: true});
+                }
+            })
         }
     })
 })
@@ -145,15 +153,29 @@ router.post('/login', function(req, res, next){
             next(err);
             //return next(new AppError(err, 500));
         }else if(!user){
-            return next(new AppError('No user found with that ID', 404));
+            next(new AppError('No user found with that ID', 404));
             //res.json({msg: "No user by that name", success: false, name: false});
         }else if(user.password == password){
             res.json({msg: "You have logged in successfully", user: user});
         }else{
-            return next(new AppError('Your password is false', 400));
+            next(new AppError('Your password is false', 400));
             //res.json({msg: "Your password is false", success: false, password: false});
         }
     })
 });
+
+router.post('/password/:id', function(req, res, next){
+    let newPassword = req.body.password;
+
+    let query = {_id:req.params.id};
+
+    User.findByIdAndUpdate(query, {password:newPassword}, function(err, user){
+        if(err){
+            next(err);
+        }else{
+            res.status(200).json({user:user, msg:'User updated successfully'});
+        }
+    });
+})
 
 module.exports = router;

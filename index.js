@@ -58,9 +58,9 @@ const blocks = require('./routes/blockchainRoutes');
 app.use('/blocks', blocks);
 
 //error handling for routes
-// app.all('*', (req, res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-// });
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
 //Error handling
 //error middleware

@@ -58,9 +58,9 @@ router.get('/find/:id', function(req, res, next){
     })
 })
 
-router.get('/manufacturer/:id', function(req, res, next){
+router.get('/:manufacturer', function(req, res, next){
 
-    let query = {manufacturer:req.params.id};
+    let query = {manufacturer:req.params.manufacturer};
 
     Product.find(query, function(err, products){
         if(err){

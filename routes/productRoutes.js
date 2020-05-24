@@ -58,6 +58,22 @@ router.get('/find/:id', function(req, res, next){
     })
 })
 
+router.get('/manufacturer/:id', function(req, res, next){
+
+    let query = {manufacturer:req.params.id};
+
+    Product.find(query, function(err, products){
+        if(err){
+            //console.log(err);
+            next(err);
+        }else if(!products){
+            next(new AppError('No product for that manufacturer', 404));
+        }else{
+            res.json({products: products});
+        }
+    })
+})
+
 router.post('/update/:id', function(req, res, next){
 
     let query = {_id:req.params.id};

@@ -14,6 +14,7 @@ router.post('/new', async function(req, res, next){
         transaction.user = req.body.user;
         transaction.location = req.body.location;
         transaction.product = req.body.product;
+        transaction.createdAt = req.body.createdAt;
 
         transaction.hash = transaction.calculateHash(function(err, hash){
             if(err){

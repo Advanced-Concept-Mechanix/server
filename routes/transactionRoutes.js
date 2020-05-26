@@ -3,11 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const AppError = require('../errorHandling/AppError');
 
-const transactionStorageSchema = require('../models/transactionStorage');
 const transactionSchema = require('../models/transactions');
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
-const TransactionStorage = mongoose.model('TransactionStorage', transactionStorageSchema);
 
 router.post('/new', async function(req, res, next){
    
@@ -27,50 +25,14 @@ router.post('/new', async function(req, res, next){
             }
         });
 
-        async function saveTx(tx){
-            await tx.save(function(err, tx){
-                if(err){
-                    next(err);
-                }else{
-                    console.log(tx);
-                    return tx;
-                }
-            })
-        }
-
-        async function saveTemp(tx){
-            await saveTx(tx)
-            .then(async(tx) => {
-                console.log(tx);
-                let txTemp = tx[0];
-                let txStorage = new TransactionStorage();
-                txStorage._id = txTemp._id;
-                txStorage.user = txTemp.user;
-                txStorage.product = txTemp.product;
-                txStorage.location = txTemp.location;
-                txStorage.createdAt= txTemp.createdAt;
-                txStorage.hash = txTemp.hash;
-
-                await txStorage.save(function(err, tx){
-                    if(err){
-                        next(err);
-                    }else{
-                        res.json({msg: "Transaction successfully created", transaction:tx});
-                    }
-                })
-            })
-        }
-
-        // await transaction.save(function(err, transaction){
-        //     if(err){
-        //         console.log(err);
-        //         next(err);
-        //     }else{
-        //         res.json({msg: "Transaction successfully created", transaction:transaction});
-        //     }
-        // })
-
-        saveTemp(transaction);
+        await transaction.save(function(err, transaction){
+            if(err){
+                console.log(err);
+                next(err);
+            }else{
+                res.json({msg: "Transaction successfully created", transaction:transaction});
+            }
+        })
     } catch(err){
         console.log(err);
         next(err);

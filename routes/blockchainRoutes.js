@@ -7,16 +7,16 @@ const AppError = require('../errorHandling/AppError');
 
 const aWss = expressWs.getWss('/');
 
-const transactionStorageSchema = require('../models/transactionStorage');
+const transactionSchema = require('../models/transactions');
 const blockSchema = require('../models/blocks');
 
-const TransactionStorage = mongoose.model('TransactionStorage', transactionStorageSchema);
+const Transaction = mongoose.model('TransactionStorage', transactionSchema);
 const Block = mongoose.model('Block', blockSchema);
 
 router.post('/new', async function(req, res, next){
 
     try{
-        let transactionSummary = await TransactionStorage.find({}, function(err, transactions){
+        let transactionSummary = await Transaction.find({}, function(err, transactions){
             if(err){
                 console.log(err);
                 next(err);
@@ -70,7 +70,7 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                TransactionStorage.find().deleteMany(function(err){
+                Transaction.find().deleteMany(function(err){
                     if(err){
                         console.log(err);
                         next(err);

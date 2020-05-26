@@ -10,7 +10,7 @@ const aWss = expressWs.getWss('/');
 const transactionSchema = require('../models/transactions');
 const blockSchema = require('../models/blocks');
 
-const Transaction = mongoose.model('TransactionStorage', transactionSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
 const Block = mongoose.model('Block', blockSchema);
 
 router.post('/new', async function(req, res, next){

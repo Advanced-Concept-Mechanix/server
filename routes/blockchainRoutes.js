@@ -79,14 +79,6 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                // Transaction.find().deleteMany(function(err){
-                //     if(err){
-                //         console.log(err);
-                //         next(err);
-                //     }else{
-                //         console.log("transactions deleted");
-                //     }
-                // });
                 res.status(200).json({msg:"block created successfully", block:block});
             }
         });

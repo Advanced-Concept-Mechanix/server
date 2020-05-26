@@ -32,6 +32,7 @@ router.post('/new', async function(req, res, next){
                 if(err){
                     next(err);
                 }else{
+                    console.log(tx);
                     return tx;
                 }
             })
@@ -40,6 +41,7 @@ router.post('/new', async function(req, res, next){
         async function saveTemp(tx){
             await saveTx(tx)
             .then(async(tx) => {
+                console.log(tx);
                 let txTemp = tx[0];
                 let txStorage = new TransactionStorage();
                 txStorage._id = txTemp._id;

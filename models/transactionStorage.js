@@ -6,6 +6,6 @@ let transactionStorageSchema = new mongoose.Schema({
     location: String,
     createdAt: Date,
     hash: String
-})
+}, { _id: false });
   
 module.exports = transactionStorageSchema;

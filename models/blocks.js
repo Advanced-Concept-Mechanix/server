@@ -9,7 +9,7 @@ let blockSchema = new mongoose.Schema({
     hash: String,
     nonce: {type:Number, default: 0},
     difficulty: {type: Number, default: 3},
-    lastTx: 'string'
+    lastTx: Date
 })
 
 blockSchema.methods.calculateHash = function(){

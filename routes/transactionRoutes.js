@@ -68,7 +68,7 @@ router.post('/new', async function(req, res, next){
         //     }
         // })
 
-        saveTemp();
+        saveTemp(transaction);
     } catch(err){
         console.log(err);
         next(err);

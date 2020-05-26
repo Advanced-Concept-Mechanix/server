@@ -67,6 +67,8 @@ router.post('/new', async function(req, res, next){
             }
         });
 
+        block.lastTx = transactionSummary[transactionSummary.length - 1].createdAt;
+
         await block.save(function(err, block){
             if(err){
                 console.log(err);

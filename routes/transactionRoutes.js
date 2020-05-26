@@ -27,7 +27,7 @@ router.post('/new', async function(req, res, next){
             }
         });
 
-        await transaction.save(function(err, transaction){
+        await transaction.save(async function(err, transaction){
             if(err){
                 console.log(err);
                 next(err);

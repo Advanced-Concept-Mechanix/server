@@ -4,51 +4,11 @@ const mongoose = require('mongoose');
 const AppError = require('../errorHandling/AppError');
 
 const transactionStorageSchema = require('../models/transactionStorage');
-const transactionSchema = require('../models/transactions');
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
 const TransactionStorage = mongoose.model('TransactionStorage', transactionStorageSchema);
 
-router.post('/new', async function(req, res, next){
-   
-    try{
-        let transaction = new Transaction();
-        transaction.user = req.body.user;
-        transaction.location = req.body.location;
-        transaction.product = req.body.product;
-        transaction.createdAt = req.body.createdAt;
-
-        transaction.hash = transaction.calculateHash(function(err, hash){
-            if(err){
-                console.log(err)
-                next(err);
-            }else{
-                return hash;
-            }
-        });
-
-        await transaction.save(function(err, transaction){
-            if(err){
-                console.log(err);
-                next(err);
-            }else{
-                TransactionStorage.create(transaction, function(err, transaction){
-                    if(err){
-                        next(err);
-                    }else{
-                        res.json({msg: "Transaction successfully created", transaction:transaction});
-                    }
-                })
-            }
-        })
-    } catch(err){
-        console.log(err);
-        next(err);
-    } 
-})
-
 router.get('/', function(req, res, next){
-    Transaction.find({}, function(err, transactions){
+    TransactionStorage.find({}, function(err, transactions){
         if(err){
             console.log(err);
             next(err);
@@ -62,7 +22,7 @@ router.get('/find/:id', function(req, res, next){
     
     let query = {_id:req.params.id};
 
-    Transaction.findById(query, function(err, transaction){
+    TransactionStorage.findById(query, function(err, transaction){
         if(err){
             console.log(err);
             next(err);
@@ -77,7 +37,7 @@ router.get('/find/:id', function(req, res, next){
 
 router.get('/count', function(req, res, next){
 
-    Transaction.countDocuments(function(err, count){
+    TransactionStorage.countDocuments(function(err, count){
         if(err){
             next(err);
         }else{
@@ -90,7 +50,7 @@ router.get('/:product', function(req, res, next){
 
     let query = {product:req.params.product};
 
-    Transaction.find(query, function(err, transactions){
+    TransactionStorage.find(query, function(err, transactions){
         if(err){
             next(err);
         }else if(!transactions){

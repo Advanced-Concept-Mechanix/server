@@ -7,16 +7,16 @@ const AppError = require('../errorHandling/AppError');
 
 const aWss = expressWs.getWss('/');
 
-const transactionSchema = require('../models/transactions');
+const transactionStorageSchema = require('../models/transactionStorage');
 const blockSchema = require('../models/blocks');
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const TransactionStorage = mongoose.model('TransactionStorage', transactionStorageSchema);
 const Block = mongoose.model('Block', blockSchema);
 
 router.post('/new', async function(req, res, next){
 
     try{
-        let transactionSummary = await Transaction.find({}, function(err, transactions){
+        let transactionSummary = await TransactionStorage.find({}, function(err, transactions){
             if(err){
                 console.log(err);
                 next(err);
@@ -37,7 +37,14 @@ router.post('/new', async function(req, res, next){
         let block = new Block();
 
         block.index = await block.getIndex(latestBlock);
-        block.txSummary = transactionSummary;
+        block.txSummary = await block.getHash(transactionSummary, function(err, hash){
+            if(err){
+                next(err);
+            }else{
+                return hash;
+            }
+        });
+
         block.previousHash = latestBlock[0].hash;
 
         block.hash = block.calculateHash(function(err, hash){
@@ -63,7 +70,7 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                Transaction.find().deleteMany(function(err){
+                TransactionStorage.find().deleteMany(function(err){
                     if(err){
                         console.log(err);
                         next(err);
@@ -71,7 +78,7 @@ router.post('/new', async function(req, res, next){
                         console.log("transactions deleted");
                     }
                 });
-                res.status(200).json({msg:"block created successfully"});
+                res.status(200).json({msg:"block created successfully", block:block});
             }
         });
 

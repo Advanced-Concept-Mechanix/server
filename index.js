@@ -54,6 +54,9 @@ app.use('/products', products);
 const transactions = require('./routes/transactionRoutes');
 app.use('/transactions', transactions);
 
+const transactionStorage = require('./routes/transactionStorageRoutes');
+app.use('/transactionsstorage', transactionStorage);
+
 const blocks = require('./routes/blockchainRoutes');
 app.use('/blocks', blocks);
 

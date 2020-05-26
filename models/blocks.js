@@ -14,6 +14,9 @@ let blockSchema = new mongoose.Schema({
 blockSchema.methods.calculateHash = function(){
   return SHA256(this.index + this.timestamp + this.txSummary + this.previousHash + this.nonce).toString();
 }
+blockSchema.methods.getHash = function(value){
+  return SHA256(value).toString();
+}
 
 blockSchema.methods.getIndex = function(latestBlock){
   return latestBlock[0].index + 1;

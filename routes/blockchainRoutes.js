@@ -16,14 +16,6 @@ const Block = mongoose.model('Block', blockSchema);
 router.post('/new', async function(req, res, next){
 
     try{
-        let transactionSummary = await Transaction.find({}, function(err, transactions){
-            if(err){
-                console.log(err);
-                next(err);
-            }else{
-                return transactions;
-            }
-        });
 
         let latestBlock = await Block.find().sort({$natural:-1}).limit(1, function(err, latestBlock){
             if(err){
@@ -31,6 +23,16 @@ router.post('/new', async function(req, res, next){
                 next(err);
             }else{
                 return latestBlock;
+            }
+        });
+
+        let query = {createdAt: {$gt: latestBlock[0].lastTx}}
+        let transactionSummary = await Transaction.find(query, function(err, transactions){
+            if(err){
+                console.log(err);
+                next(err);
+            }else{
+                return transactions;
             }
         });
 
@@ -70,14 +72,14 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                Transaction.find().deleteMany(function(err){
-                    if(err){
-                        console.log(err);
-                        next(err);
-                    }else{
-                        console.log("transactions deleted");
-                    }
-                });
+                // Transaction.find().deleteMany(function(err){
+                //     if(err){
+                //         console.log(err);
+                //         next(err);
+                //     }else{
+                //         console.log("transactions deleted");
+                //     }
+                // });
                 res.status(200).json({msg:"block created successfully", block:block});
             }
         });
@@ -178,6 +180,7 @@ router.post('/genesis', async function(req,res, next){
     });
 
     block.nonce = 0;
+    block.lastTx = Date.now();
 
     await block.save(function(err, block){
         if(err){

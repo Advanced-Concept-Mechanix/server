@@ -8,7 +8,8 @@ let blockSchema = new mongoose.Schema({
     previousHash: String,
     hash: String,
     nonce: {type:Number, default: 0},
-    difficulty: {type: Number, default: 3}
+    difficulty: {type: Number, default: 3},
+    lastTx: 'string'
 })
 
 blockSchema.methods.calculateHash = function(){

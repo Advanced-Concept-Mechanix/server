@@ -36,17 +36,21 @@ router.post('/new', async function(req, res, next){
             }
         });
 
+        if(transactionSummary.length === 0){
+            next(new AppError("You need new transactions to create another block", 400));
+        }
+
         let block = new Block();
 
         block.index = await block.getIndex(latestBlock);
-        // block.txSummary = await block.getHash(transactionSummary, function(err, hash){
-        //     if(err){
-        //         next(err);
-        //     }else{
-        //         return hash;
-        //     }
-        // });
-        block.txSummary = transactionSummary;
+        block.txSummary = await block.getHash(transactionSummary, function(err, hash){
+            if(err){
+                next(err);
+            }else{
+                return hash;
+            }
+        });
+        // block.txSummary = transactionSummary;
 
         block.previousHash = latestBlock[0].hash;
 

@@ -32,7 +32,14 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                TransactionStorage.create(transaction, function(err, transaction){
+                let transactionStorage = new TransactionStorage();
+                transactionStorage._id = transaction._id;
+                transactionStorage.user = transaction.user;
+                transactionStorage.location = transaction.location;
+                transactionStorage.product = transaction.product;
+                transactionStorage.createdAt= transaction.createdAt;
+
+                await transactionStorage.save(function(err, trans){
                     if(err){
                         next(err);
                     }else{

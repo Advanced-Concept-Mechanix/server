@@ -95,7 +95,7 @@ router.get('/:product', function(req, res, next){
     })
 })
 
-router.get('/validity/:id', function(req, res, next){
+router.get('/validity/:id', async function(req, res, next){
     let blockValidity = await Block.checkValid(function(err, validity){
         if(err){
             //console.log(err);

@@ -8,15 +8,16 @@ let blockSchema = new mongoose.Schema({
     previousHash: String,
     hash: String,
     nonce: {type:Number, default: 0},
+    merkleRoot: String,
     difficulty: {type: Number, default: 3},
     lastTx: Date
 })
 
 blockSchema.methods.calculateHash = function(){
-  return SHA256(this.txSummary + this.nonce).toString();
+  return SHA256(this.txSummary + this.nonce + this.timestamp + this.previousHash + this.index).toString();
 }
-blockSchema.methods.getHash = function(value){
-  return SHA256(value).toString();
+blockSchema.methods.getRoot = function(){
+  return SHA256(this.txSummary).toString();
 }
 
 blockSchema.methods.getIndex = function(latestBlock){
@@ -50,7 +51,7 @@ blockSchema.statics.checkValid = async function(){
     const currentBlock = chain[i];
     const previousBlock = chain[i - 1];
 
-    if (currentBlock.hash !== currentBlock.calculateHash()) {
+    if (currentBlock.merkleRoot !== currentBlock.getRoot()) {
         console.log("Current hash is the problem!");
         return false;
     }

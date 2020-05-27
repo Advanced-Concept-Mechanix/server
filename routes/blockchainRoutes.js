@@ -54,6 +54,14 @@ router.post('/new', async function(req, res, next){
 
         block.previousHash = latestBlock[0].hash;
 
+        block.merkleRoot = block.getRoot(function(err, root){
+            if(err){
+                next(err);
+            }else{
+                return root;
+            }
+        });
+
         block.hash = block.calculateHash(function(err, hash){
             if(err){
                 console.log(err);
@@ -168,6 +176,7 @@ router.post('/genesis', async function(req,res, next){
     block.index = 0;
     block.txSummary = {};
     block.previousHash = "0";
+    block.merkleRoot = "0";
 
     block.hash = block.calculateHash(function(err, hash){
         if(err){

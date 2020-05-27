@@ -113,7 +113,7 @@ router.get('/validity/:id', async function(req, res, next){
         }else if(tx.length === 0){
             res.json({blockValidity:blockValidity, transactionValidity: false});
         }else{
-            res.json({blockValidity:blockValidity, transactionValidity: true});
+            res.json({blockValidity:blockValidity, transactionValidity: true, tx:tx});
         }
     })
 });

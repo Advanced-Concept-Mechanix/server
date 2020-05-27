@@ -42,7 +42,7 @@ blockSchema.statics.checkValid = async function(){
     if(err){
       console.log(err);
     }else{
-      console.log(chain);
+      //console.log(chain);
       return chain;
     }
   })

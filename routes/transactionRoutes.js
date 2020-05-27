@@ -111,7 +111,7 @@ router.get('/validity/:id', async function(req, res, next){
     Block.findOne(query, function(err, tx){
         if(err){
             next(err);
-        }else if(tx.length === 0){
+        }else if(!tx){
             res.json({blockValidity:blockValidity, transactionValidity: false, tx:tx});
         }else{
             res.json({blockValidity:blockValidity, transactionValidity: true, tx:tx});

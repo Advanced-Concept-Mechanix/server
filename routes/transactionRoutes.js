@@ -104,11 +104,9 @@ router.get('/validity/:id', async function(req, res, next){
             return validity;
         }
     });
+    let query = {_id:req.params.id};
 
-    let query = {'txSummary._id':`ObjectId(${req.params.id})`};
-    console.log(query);
-
-    Block.findOne(query, function(err, tx){
+    Transaction.findById(query, function(err, tx){
         if(err){
             next(err);
         }else if(!tx){

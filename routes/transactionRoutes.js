@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const AppError = require('../errorHandling/AppError');
 
 const transactionSchema = require('../models/transactions');
+const blockSchema = require('../models/blocks');
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
+const Block = mongoose.model('Block', blockSchema);
 
 router.post('/new', async function(req, res, next){
    
@@ -92,5 +94,28 @@ router.get('/:product', function(req, res, next){
         }
     })
 })
+
+router.get('/validity/:id', function(req, res, next){
+    let blockValidity = await Block.checkValid(function(err, validity){
+        if(err){
+            //console.log(err);
+            next(err);
+        }else{
+            return validity;
+        }
+    });
+
+    let query = req.params.id;
+
+    Block.txSummary.id(query, function(err, tx){
+        if(err){
+            next(err);
+        }else if(!tx){
+            res.json({blockValidity:blockValidity, transactionValidity: false});
+        }else{
+            res.json({blockValidity:blockValidity, transactionValidity: true});
+        }
+    })
+});
 
 module.exports = router;

@@ -105,7 +105,7 @@ router.get('/validity/:id', async function(req, res, next){
         }
     });
 
-    let query = {'txSummary._id':req.params.id};
+    let query = {txSummary: {_id:req.params.id}};
 
     Block.find(query, function(err, tx){
         if(err){

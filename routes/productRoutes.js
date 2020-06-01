@@ -22,7 +22,7 @@ router.post('/new', async function(req, res, next){
                 console.log(err);
                 next(err);
             }else{
-                res.status(200).json({msg: 'Product created', success: true})
+                res.status(200).json({msg: 'Product created', success: true, product:product})
             }
         })
     }catch(err){
@@ -64,12 +64,12 @@ router.get('/:manufacturer', function(req, res, next){
 
     Product.find(query, function(err, products){
         if(err){
-            //console.log(err);
+            console.log(err);
             next(err);
         }else if(!products){
             next(new AppError('No product for that manufacturer', 404));
         }else{
-            res.json({products: products});
+            res.status(200).json({products: products});
         }
     })
 })

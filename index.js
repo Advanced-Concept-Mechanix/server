@@ -51,6 +51,9 @@ app.use('/users', users);
 const products = require('./routes/productRoutes');
 app.use('/products', products);
 
+const createProducts = require('./routes/createdProductsRoutes');
+app.use('/createProducts', createProducts);
+
 const transactions = require('./routes/transactionRoutes');
 app.use('/transactions', transactions);
 

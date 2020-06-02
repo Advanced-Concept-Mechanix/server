@@ -13,6 +13,7 @@ router.post('/new', async function(req, res, next){
    
     try{
         let transaction = new Transaction();
+        transaction.UUID = req.body.UUID;
         transaction.user = req.body.user;
         transaction.location = req.body.location;
         transaction.product = req.body.product;
@@ -80,15 +81,15 @@ router.get('/count', function(req, res, next){
     });
 });
 
-router.get('/:product', function(req, res, next){
+router.get('/:UUID', function(req, res, next){
 
-    let query = {product:req.params.product};
+    let query = {UUID:req.params.UUID};
 
     Transaction.find(query, function(err, transactions){
         if(err){
             next(err);
         }else if(!transactions){
-            return next(new AppError('No transactions found with that product ID', 404));
+            return next(new AppError('No transactions found with that product UUID', 404));
         }else{
             res.status(200).json({transactions:transactions});
         }

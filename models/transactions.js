@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const SHA256 = require('crypto-js/sha256');
 
 let transactionSchema = new mongoose.Schema({
+    UUID: String,
     user: String,
     product: String,
     location: String,

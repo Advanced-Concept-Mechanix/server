@@ -13,7 +13,6 @@ router.post('/new', async function(req, res, next){
    
     try{
         let transaction = new Transaction();
-        transaction.UUID = req.body.UUID;
         transaction.user = req.body.user;
         transaction.location = req.body.location;
         transaction.product = req.body.product;

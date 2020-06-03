@@ -7,7 +7,7 @@ let createProductSchema = new mongoose.Schema({
     manufacturer: String,
     dateOfManufacture: {type: Date, default: Date.now},
     dateOfExpiry: Date,
-    _id: {type: String, required: true}
+    UUID: String
   })
   
 module.exports = createProductSchema;

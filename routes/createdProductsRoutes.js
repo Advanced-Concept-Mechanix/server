@@ -110,7 +110,7 @@ router.post('/update/:id', function(req, res, next){
             product.name = req.body.name;
             product.description = req.body.description;
             product.manufacturer = req.body.manufacturer;
-            product.daysBeforeExpiry = req.body.daysBeforeExpiry;
+            product.dateOfExpiry = req.body.dateOfExpiry;
 
             await product.save(function(err, product){
                 if(err){

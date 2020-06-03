@@ -12,7 +12,7 @@ router.post('/new', async function(req, res, next){
 
         let data = req.body.qrDataSet;
 
-        CreateProduct.insertMany(data, function(err, dataset){
+        CreateProduct.insertMany(data, {ordered:true},function(err, dataset){
             if(err){
                 next(err);
             }else{

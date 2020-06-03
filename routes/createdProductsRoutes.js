@@ -9,9 +9,35 @@ const CreateProduct = mongoose.model('CreateProduct', createProductSchema);
 router.post('/new', async function(req, res, next){
 
     try{
+        let product = new CreateProduct();
+        product.profileId = req.body.profileId;
+        product.name = req.body.name;
+        product.description = req.body.description;
+        product.manufacturer = req.body.manufacturer;
+        product.dateOfManufacture = req.body.dateOfManufacture;
+        product.dateOfExpiry = req.body.dateOfExpiry;
+        product._id = req.body.UUID;
 
+        product = await product.save(function(err, product){
+            if(err){
+                console.log(err);
+                next(err);
+            }else{
+                res.status(200).json({msg: 'Product created', success: true, product:product})
+            }
+        })
+    }catch(err){
+        console.log(err);
+        next(err);
+    }  
+})
+
+router.post('/newBatch', async function(req, res, next){
+
+    try{
+  
         let data = req.body.qrDataSet;
-
+  
         CreateProduct.insertMany(data, {ordered:true},function(err, dataset){
             if(err){
                 next(err);
@@ -19,12 +45,12 @@ router.post('/new', async function(req, res, next){
                 res.json({dataset:dataset});
             }
         });
-
+  
     }catch(err){
         console.log(err);
         next(err);
     }  
-})
+  })
 
 router.get('/', function(req, res, next){
     CreateProduct.find({}, function(err, products){

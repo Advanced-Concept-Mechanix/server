@@ -4,7 +4,7 @@ const SHA256 = require('crypto-js/sha256');
 let transactionSchema = new mongoose.Schema({
     user: String,
     product: String,
-    location: String,
+    location: {},
     createdAt: {type: Date, default: Date.now},
     hash: String
 })

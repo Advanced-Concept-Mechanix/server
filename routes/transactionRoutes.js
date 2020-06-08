@@ -82,7 +82,7 @@ router.get('/count', function(req, res, next){
 
 router.get('/:UUID', function(req, res, next){
 
-    let query = {UUID:req.params.UUID};
+    let query = {product:req.params.UUID};
 
     Transaction.find(query, function(err, transactions){
         if(err){

@@ -164,18 +164,27 @@ router.post('/login', function(req, res, next){
     })
 });
 
-router.post('/password/:id', function(req, res, next){
+router.post('/password/:email', function(req, res, next){
     let newPassword = req.body.password;
 
-    let query = {_id:req.params.id};
+    let query = {email:req.params.email};
 
-    User.findByIdAndUpdate(query, {password:newPassword}, function(err, user){
+    User.find(query, async function(err, user){
         if(err){
             next(err);
+        }else if(!user){
+            next(new AppError('No user found with that EMAIL', 404));
         }else{
-            res.status(200).json({user:user, msg:'Password updated successfully'});
+            user.password = newPassword;
+            await user.save(function(err, user){
+                if(err){
+                    next(err);
+                }else{
+                    res.status(200).json({user:user, msg:'Password updated successfully'});
+                }
+            })
         }
-    });
+    })
 })
 
 module.exports = router;

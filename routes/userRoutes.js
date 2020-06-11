@@ -175,7 +175,7 @@ router.post('/password/:email', function(req, res, next){
         }else if(!user){
             next(new AppError('No user found with that EMAIL', 404));
         }else{
-            user.password = newPassword;
+            user.password = SHA256(newPassword);
             await user.save(function(err, user){
                 if(err){
                     next(err);

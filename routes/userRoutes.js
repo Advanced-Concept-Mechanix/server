@@ -169,7 +169,7 @@ router.post('/password/:email', function(req, res, next){
 
     let query = {email:req.params.email};
 
-    User.find(query, async function(err, user){
+    User.findOne(query, async function(err, user){
         if(err){
             next(err);
         }else if(!user){

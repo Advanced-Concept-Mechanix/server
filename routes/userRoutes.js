@@ -18,6 +18,8 @@ router.post('/new', async function(req, res, next){
         user.phone = req.body.phone;
         user.company = req.body.company;
         user.type = req.body.type;
+        user.question = req.body.question;
+        user.answer = SHA256(req.body.answer);
 
         user.publicKey = user.getPublicKey(function(err, pubKey){
             if(err){
@@ -113,6 +115,8 @@ router.post('/update/:id', function(req, res, next){
     let phone = req.body.phone;
     let company = req.body.company;
     let type = req.body.type;
+    let question = req.body.question;
+    let answer = SHA256(req.body.answer);
 
     let query = {_id:req.params.id};
 
@@ -130,6 +134,8 @@ router.post('/update/:id', function(req, res, next){
             user.phone = phone;
             user.company = company;
             user.type = type;
+            user.question = question;
+            user.answer = answer;
             await user.save(function(err, user){
                 if(err){
                     next(err);
@@ -183,6 +189,21 @@ router.post('/password/:email', function(req, res, next){
                     res.status(200).json({user:user, msg:'Password updated successfully'});
                 }
             })
+        }
+    })
+})
+
+router.get('/question/:email', function(req, res, next){
+
+    let query = {email:req.params.email};
+
+    User.findOne(query, function(err, user){
+        if(err){
+            next(err);
+        }else if(!user){
+            next(new AppError('No user found with that EMAIL', 404));
+        }else{
+            res.status(200).json({user:user});
         }
     })
 })

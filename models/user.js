@@ -19,7 +19,9 @@ let userSchema = new mongoose.Schema({
     company: String,
     type: {type:String, enum: ["manufacturer", "distributor", "retailer", "end-user"]},
     publicKey: {},
-    secretKey: {}
+    secretKey: {},
+    question: String,
+    answer: String
   })
 
 userSchema.methods.getPublicKey = function(){

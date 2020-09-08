@@ -27,4 +27,4 @@ const compareImages = (img1, img2) => {
 // Example
 // compareImages('./images/north_korea.jpg', './images/north_korea_1.jpg')
 
-export default compareImages;
+module.exports = compareImages;

@@ -4,17 +4,17 @@ const router = express.Router();
 const AppError = require('../errorHandling/AppError');
 const compareImages = require('../imageProcessing/imageHash');
 
-const primaryImage = require('../imageProcessing/images/north_korea.jpg');
+const primaryImage = 'https://ichef-1.bbci.co.uk/news/660/cpsprodpb/7F76/production/_95703623_mediaitem95703620.jpg';
 
 router.get('/check', async function(req, res, next){
     try{
         const secondaryImage = req.body.img;
-        await compareImages(primaryImage, secondaryImage)
-        .then((result) => {
-            res.json({result:result});
-        })
+        let result = await compareImages(primaryImage, secondaryImage);
+        res.json({result:result});
     }catch(err){
         console.log(err);
         next(err);
     }
 })
+
+module.exports = router;

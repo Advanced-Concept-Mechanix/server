@@ -1,9 +1,12 @@
-const { imageHash }= require('image-hash');
 const imghash = require('imghash');
 const compare = require('hamming-distance');
 
-const hash1 = imghash.hash('./images/north_korea.jpg');
-const hash2 = imghash.hash('./images/north_korea.jpg');
+const hashImage = (img) => {
+    return imghash.hash(img, 64);
+}
+
+const hash1 = hashImage('./images/north_korea.jpg');
+const hash2 = hashImage('./images/north_korea_2.jpg');
 
 Promise
   .all([hash1, hash2])

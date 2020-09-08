@@ -15,17 +15,23 @@ const hashImg = (url) => {
             throw error;
         }
         // let hashStr = bin2String(pHash);
-        console.log(`hash: ${data}, length:${data.length}, type:${data.type}, char:${data[6]}`);
-        return data;
+        // let hashStr = data.toString();
+        // console.log(`hash: ${data}, length:${data.length}, type:${data.type}`);
+        return data.toString();
     })
     return pHash;
 }
 
+let hashEx = hashImg('./images/north_korea.jpg');
+console.log(`hash Example: ${hashEx}`);
+// let strEx = convertToString(hashEx);
+// console.log(`string example: ${strEx}`);
+
 // hashImg('./images/north_korea_1.jpg');
-let phash1 = hashImg('./images/north_korea.jpg');
-let phash2 = hashImg('./images/north_korea_2.jpg')
+// let phash1 = hashImg('./images/north_korea.jpg');
+// let phash2 = hashImg('./images/north_korea_2.jpg')
 // let distance = compare(phash1, phash2);
-console.log(phash1, phash2)
+// console.log(phash1, phash2)
 // console.log(bin2String(phash1));
 // var distance = compare(Buffer.from(phash1, 'hex'), Buffer.from(phash2, 'hex'));
 // console.log(`distance: ${distance}`);

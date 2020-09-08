@@ -9,24 +9,16 @@ const compare = require('hamming-distance');
 // });
 
 const hashImg = (url) => {
-    let pHash = imageHash(url, 16, true, (error, data) => {
+    let pHash = imageHash(url, 64, true, (error, data) => {
         if(error){
             console.log(`Error: ${error}`)
             throw error;
         }
-        let hashStr = bin2String(pHash);
-        console.log(`hash: ${data}, length:${data.length}, type:${data.type}, string:${hashStr}`);
+        // let hashStr = bin2String(pHash);
+        console.log(`hash: ${data}, length:${data.length}, type:${data.type}, char:${data[6]}`);
         return data;
     })
     return pHash;
-}
-
-function bin2String(array) {
-    var result = "";
-    for (var i = 0; i < array.length; i++) {
-        result += String.fromCharCode(parseInt(array[i], 2));
-    }
-    return result;
 }
 
 // hashImg('./images/north_korea_1.jpg');
@@ -35,5 +27,5 @@ let phash2 = hashImg('./images/north_korea_2.jpg')
 // let distance = compare(phash1, phash2);
 console.log(phash1, phash2)
 // console.log(bin2String(phash1));
-// var distance = compare(Buffer.from('0000', 'hex'), Buffer.from('000F', 'hex'));
+// var distance = compare(Buffer.from(phash1, 'hex'), Buffer.from(phash2, 'hex'));
 // console.log(`distance: ${distance}`);

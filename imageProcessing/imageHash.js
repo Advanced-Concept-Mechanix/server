@@ -16,10 +16,15 @@ const compareImages = (img1, img2) => {
         console.log(`Distance between images is: ${dist}`);
         if (dist <= 12) {
         console.log('Images are similar');
+        return true;
         } else {
         console.log('Images are NOT similar');
+        return false;
         }
     });
 }
 
-compareImages('./images/north_korea.jpg', './images/north_korea_1.jpg')
+// Example
+// compareImages('./images/north_korea.jpg', './images/north_korea_1.jpg')
+
+export default compareImages;

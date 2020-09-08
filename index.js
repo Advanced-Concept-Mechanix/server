@@ -60,6 +60,9 @@ app.use('/transactions', transactions);
 const blocks = require('./routes/blockchainRoutes');
 app.use('/blocks', blocks);
 
+const cdp = require('./routes/cdp');
+app.use('/cdp', cdp);
+
 //error handling for routes
 // app.all('*', (req, res, next) => {
 //   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

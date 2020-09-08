@@ -25,6 +25,7 @@
     "express-ws": "^4.0.0",
     "hamming-distance": "^1.0.0",
     "image-hash": "^4.0.1",
+    "imghash": "0.0.7",
     "jsonfile": "^6.0.1",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.12",

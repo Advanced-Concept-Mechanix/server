@@ -5,17 +5,21 @@ const hashImage = (img) => {
     return imghash.hash(img, 64);
 }
 
-const hash1 = hashImage('./images/north_korea.jpg');
-const hash2 = hashImage('./images/north_korea_2.jpg');
+const compareImages = (img1, img2) => {
+    const hash1 = hashImage(img1);
+    const hash2 = hashImage(img2);
 
-Promise
-  .all([hash1, hash2])
-  .then((results) => {
-    const dist = compare(results[0], results[1]);
-    console.log(`Distance between images is: ${dist}`);
-    if (dist <= 12) {
-      console.log('Images are similar');
-    } else {
-      console.log('Images are NOT similar');
-    }
-});
+    Promise
+    .all([hash1, hash2])
+    .then((results) => {
+        const dist = compare(results[0], results[1]);
+        console.log(`Distance between images is: ${dist}`);
+        if (dist <= 12) {
+        console.log('Images are similar');
+        } else {
+        console.log('Images are NOT similar');
+        }
+    });
+}
+
+compareImages('./images/north_korea.jpg', './images/north_korea_1.jpg')

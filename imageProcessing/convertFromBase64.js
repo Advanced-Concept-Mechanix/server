@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 function decode_base64WithoutBuffer(str, name){
     let base64Image = str.split(';base64,').pop();
 

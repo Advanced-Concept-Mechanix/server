@@ -25,6 +25,6 @@ const compareImages = (img1, img2) => {
 }
 
 // Example
-// compareImages('./images/north_korea.jpg', './images/north_korea_1.jpg')
+// compareImages('./images/north_korea.jpg', '../blockchain/north_korea_1.jpg');
 
 module.exports = compareImages;

@@ -7,15 +7,17 @@ const secretKey = require('./secretKey');
 const Transaction = require('./transaction');
 const Decrypt = require('./decrypt');
 const Uuid = require('./uuid');
+const compareImages = require('../imageProcessing/imageHash');
 
-const shangaChain = new Blockchain();
+// const shangaChain = new Blockchain();
 
 // jsonfile.writeFile(blockchainPath, shangaChain)
 // .then(res => {console.log("write complete")})
 // .catch(err => {console.log(error)
 // });
 
-module.exports = shangaChain;
+// module.exports = shangaChain;
 
 //console.log(JSON.stringify(shangaChain, null, 4));
 // console.log("Is blockchain valid? " + sampleChain.checkValid());
+compareImages(require('../imageProcessing/images/north_korea'), require('../imageProcessing/images/north_korea'));

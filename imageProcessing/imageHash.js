@@ -8,6 +8,7 @@ const hashImage = (img) => {
 const compareImages = (img1, img2) => {
     const hash1 = hashImage(img1);
     const hash2 = hashImage(img2);
+    let status = false;
 
     Promise
     .all([hash1, hash2])
@@ -16,15 +17,15 @@ const compareImages = (img1, img2) => {
         console.log(`Distance between images is: ${dist}`);
         if (dist <= 12) {
         console.log('Images are similar');
-        return true;
+        status = true;
         } else {
         console.log('Images are NOT similar');
-        return false;
         }
     });
+    return status;
 }
 
 // Example
-// compareImages('./images/north_korea.jpg', '../blockchain/north_korea_1.jpg');
+// console.log(compareImages('./images/north_korea.jpg', '../blockchain/north_korea_1.jpg'))
 
 module.exports = compareImages;

@@ -4,6 +4,7 @@ const router = express.Router();
 const AppError = require('../errorHandling/AppError');
 const compareImages = require('../imageProcessing/imageHash');
 const convertFromBase64 = require('../imageProcessing/convertFromBase64');
+const delFile = require('../imageProcessing/deleteFile');
 
 // const primaryImage = require('../imageProcessing/images/north_korea.jpg');
 
@@ -12,6 +13,7 @@ router.get('/check', async function(req, res, next){
         const base64Str = req.body.img;
         convertFromBase64(base64Str, 'secondary.jpg')
         let result = compareImages('/home/linus/Desktop/server/server/routes/north_korea.jpg', '/home/linus/Desktop/server/server/secondary.jpg');
+        delFile('/home/linus/Desktop/server/server/secondary.jpg');
         res.json({result:result});
         // const secondaryImage = req.body.img;
         // let result = compareImages('/home/linus/Desktop/server/server/routes/north_korea.jpg', secondaryImage);

@@ -18,11 +18,12 @@ const compareImages = (img1, img2) => {
         if (dist <= 12) {
         console.log('Images are similar');
         status = true;
+        return status
         } else {
         console.log('Images are NOT similar');
+        return status;
         }
     });
-    return status;
 }
 
 // Example

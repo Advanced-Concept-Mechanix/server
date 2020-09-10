@@ -5,28 +5,39 @@ const hashImage = (img) => {
     return imghash.hash(img, 64);
 }
 
-const compareImages = (img1, img2) => {
-    const hash1 = hashImage(img1);
-    const hash2 = hashImage(img2);
-    let status = false;
+const compareImages = async(img1, img2) => {
+    const hash1 = await hashImage(img1);
+    const hash2 = await hashImage(img2);
 
-    Promise
-    .all([hash1, hash2])
-    .then((results) => {
-        const dist = compare(results[0], results[1]);
-        console.log(`Distance between images is: ${dist}`);
-        if (dist <= 12) {
+    const distance = compare(hash1, hash2);
+    console.log(`Distance between images is: ${distance}`);
+    if(distance <= 12){
         console.log('Images are similar');
-        status = true;
-        return status
-        } else {
+        return true;
+    }else{
         console.log('Images are NOT similar');
-        return status;
-        }
-    });
+        return false;
+    }
+
+    // Promise
+    // .all([hash1, hash2])
+    // .then((results) => {
+    //     const dist = compare(results[0], results[1]);
+    //     console.log(`Distance between images is: ${dist}`);
+    //     if (dist <= 12) {
+    //     console.log('Images are similar');
+    //     return Promise.resolve(true);
+    //     } else {
+    //     console.log('Images are NOT similar');
+    //     return Promise.resolve(false);
+    //     }
+    // });
 }
 
 // Example
-// console.log(compareImages('./images/north_korea.jpg', '../blockchain/north_korea_1.jpg'))
+// compareImages('./images/north_korea.jpg', './images/north_korea.jpg')
+// .then((result) => {
+//     console.log(result);
+// })
 
 module.exports = compareImages;
